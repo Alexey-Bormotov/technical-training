@@ -1,9 +1,9 @@
 {
-    "name": "Estate",  # The name that will appear in the App list
-    "version": "1.0",  # Version
+    "name": "Estate",
+    "version": "1.0",
     "author": "Alexey Bormotov",
-    "application": True,  # This line says the module is an App, and not a module
-    "depends": ["base"],  # dependencies
+    "application": True,
+    "depends": ["base"],
     "data": [
         'security/ir.model.access.csv',
         'views/estate_property_views.xml',
