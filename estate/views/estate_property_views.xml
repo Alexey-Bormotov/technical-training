@@ -64,6 +64,8 @@
             <tree string="Property offers">
                 <field name="price"/>
                 <field name="partner_id"/>
+                <field name="validity"/>
+                <field name="date_deadline"/>
                 <field name="status"/>
             </tree>
         </field>
@@ -156,9 +158,10 @@
             <form string="Estate property offer form">
                 <sheet>
                     <group>
-                        <field name="partner_id"/>
-                        <field name="property_id"/>
                         <field name="price"/>
+                        <field name="partner_id"/>
+                        <field name="validity"/>
+                        <field name="date_deadline"/>
                         <field name="status"/>
                     </group>
                 </sheet>
