@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Actions -->
+    <!-- Action -->
     <record id="estate_property_action" model="ir.actions.act_window">
         <field name="name">Advertisements</field>
         <field name="res_model">estate.property</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record id="estate_property_type_action" model="ir.actions.act_window">
-        <field name="name">Property Types</field>
-        <field name="res_model">estate.property.type</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <record id="estate_property_tag_action" model="ir.actions.act_window">
-        <field name="name">Property Tags</field>
-        <field name="res_model">estate.property.tag</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <!-- Trees -->
+    <!-- Tree -->
     <record id="estate_property_tree" model="ir.ui.view">
         <field name="name">estate.property.tree</field>
         <field name="model">estate.property</field>
@@ -37,41 +25,7 @@
         </field>
     </record>
 
-    <record id="estate_property_type_tree" model="ir.ui.view">
-        <field name="name">estate.property.type.tree</field>
-        <field name="model">estate.property.type</field>
-        <field name="arch" type="xml">
-            <tree string="Property types">
-                <field name="name"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="estate_property_tag_tree" model="ir.ui.view">
-        <field name="name">estate.property.tag.tree</field>
-        <field name="model">estate.property.tag</field>
-        <field name="arch" type="xml">
-            <tree string="Property tags">
-                <field name="name"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="estate_property_offer_tree" model="ir.ui.view">
-        <field name="name">estate.property.offer.tree</field>
-        <field name="model">estate.property.offer</field>
-        <field name="arch" type="xml">
-            <tree string="Property offers">
-                <field name="price"/>
-                <field name="partner_id"/>
-                <field name="validity"/>
-                <field name="date_deadline"/>
-                <field name="status"/>
-            </tree>
-        </field>
-    </record>
-
-    <!-- Forms -->
+    <!-- Form -->
     <record id="estate_property_form" model="ir.ui.view">
         <field name="name">estate.property.form</field>
         <field name="model">estate.property</field>
@@ -123,53 +77,7 @@
         </field>
     </record>
 
-    <record id="estate_property_type_form" model="ir.ui.view">
-        <field name="name">estate.property.type.form</field>
-        <field name="model">estate.property.type</field>
-        <field name="arch" type="xml">
-            <form string="Estate property type form">
-                <sheet>
-                    <h1>
-                        <field name="name"/>
-                    </h1>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="estate_property_tag_form" model="ir.ui.view">
-        <field name="name">estate.property.tag.form</field>
-        <field name="model">estate.property.tag</field>
-        <field name="arch" type="xml">
-            <form string="Estate property tag form">
-                <sheet>
-                    <h1>
-                        <field name="name"/>
-                    </h1>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="estate_property_offer_form" model="ir.ui.view">
-        <field name="name">estate.property.offer.form</field>
-        <field name="model">estate.property.offer</field>
-        <field name="arch" type="xml">
-            <form string="Estate property offer form">
-                <sheet>
-                    <group>
-                        <field name="price"/>
-                        <field name="partner_id"/>
-                        <field name="validity"/>
-                        <field name="date_deadline"/>
-                        <field name="status"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <!-- Searches and filters -->
+    <!-- Search and filters -->
     <record id="estate_property_search" model="ir.ui.view">
         <field name="name">estate.property.search</field>
         <field name="model">estate.property</field>
@@ -187,26 +95,6 @@
                     <filter string="Postcode" name="postcode" context="{'group_by':'postcode'}"/>
                     <filter string="Property type" name="property_type_id" context="{'group_by':'property_type_id'}"/>
                 </group>
-            </search>
-        </field>
-    </record>
-
-    <record id="estate_property_type_search" model="ir.ui.view">
-        <field name="name">estate.property.type.search</field>
-        <field name="model">estate.property.type</field>
-        <field name="arch" type="xml">
-            <search string="Estate property type search">
-                <field name="name" string="Title"/>
-            </search>
-        </field>
-    </record>
-
-    <record id="estate_property_tag_search" model="ir.ui.view">
-        <field name="name">estate.property.tag.search</field>
-        <field name="model">estate.property.tag</field>
-        <field name="arch" type="xml">
-            <search string="Estate property tag search">
-                <field name="name" string="Title"/>
             </search>
         </field>
     </record>
