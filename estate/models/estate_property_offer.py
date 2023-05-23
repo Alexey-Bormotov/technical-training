@@ -1,6 +1,7 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 
 class EstatePropertyOffer(models.Model):
@@ -8,7 +9,7 @@ class EstatePropertyOffer(models.Model):
     _description = 'Real Estate Property Offer'
 
     price = fields.Float('Price', required=True)
-    status = fields.Selection(
+    state = fields.Selection(
         string='Status',
         copy=False,
         selection=[
@@ -51,3 +52,26 @@ class EstatePropertyOffer(models.Model):
                 record.date_deadline -
                 date
             ).days
+
+    def action_accept(self):
+        if 'accepted' in self.mapped('property_id.offer_ids.state'):
+            raise UserError('An offer has already been accepted.')
+        self.write(
+            {
+                'state': 'accepted'
+            }
+        )
+        return self.mapped('property_id').write(
+            {
+                'state': 'offer_accepted',
+                'selling_price': self.price,
+                'buyer_id': self.partner_id.id
+            }
+        )
+
+    def action_refuse(self):
+        return self.write(
+            {
+                'state': 'refused'
+            }
+        )
