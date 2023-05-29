@@ -36,10 +36,15 @@ class EstatePropertyOffer(models.Model):
         required=True
     )
 
+    _sql_constraints = [
+        ('check_price', 'CHECK(price > 0)',
+         'The offer price must be strictly positive.')
+    ]
+
     @api.depends('validity')
     def _compute_date_deadline(self):
         for record in self:
-            date = record.create_date.date() if record.create_date else fields.Date.now()
+            date = record.create_date.date() if record.create_date else fields.Datetime.now()
             record.date_deadline = (
                 date +
                 relativedelta(days=record.validity)
@@ -47,7 +52,7 @@ class EstatePropertyOffer(models.Model):
 
     def _compute_validity(self):
         for record in self:
-            date = record.create_date.date() if record.create_date else fields.Date.today()
+            date = record.create_date.date() if record.create_date else fields.Datetime.today()
             record.validity = (
                 record.date_deadline -
                 date
