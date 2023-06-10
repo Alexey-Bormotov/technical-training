@@ -1,12 +1,14 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
+from odoo.tools.float_utils import float_compare, float_is_zero
 
 
 class EstateProperty(models.Model):
     _name = 'estate.property'
     _description = 'Real Estate Property'
+    _order = 'id desc'
 
     def _default_date_availability(self):
         return fields.Date.context_today(self) + relativedelta(months=3)
@@ -118,3 +120,22 @@ class EstateProperty(models.Model):
             if record.state == 'sold':
                 raise UserError('Sold properties cannot be cancelled.')
             record.state = 'cancelled'
+
+    @api.constrains('expected_price', 'selling_price')
+    def _check_selling_price(self):
+        for record in self:
+            if (
+                not float_is_zero(
+                    record.selling_price, precision_rounding=0.01
+                )
+                and float_compare(
+                    record.selling_price, record.expected_price * 0.9,
+                    precision_rounding=0.01
+                ) < 0
+            ):
+                raise ValidationError(
+                    'The selling price must be at least '
+                    '90% of the expected price! '
+                    'You must reduce the expected price '
+                    'if you want to accept this offer.'
+                )
