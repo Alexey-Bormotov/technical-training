@@ -12,7 +12,7 @@ class EstatePropertyType(models.Model):
     sequence = fields.Integer(
         'Sequence',
         default=1,
-        help="Used to order property types. Lower is better."
+        help="Used to order property types. Lower is higher."
     )
 
     property_ids = fields.One2many(
