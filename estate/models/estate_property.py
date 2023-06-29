@@ -92,6 +92,15 @@ class EstateProperty(models.Model):
          'The selling price must be positive.')
     ]
 
+    @api.ondelete(at_uninstall=False)
+    def _unlink_if_new_or_cancelled(self):
+        for record in self:
+            if record.state not in ('new', 'cancelled'):
+                raise UserError(
+                    'Only new and cancelled properties can be deleted.'
+                )
+        # return super().unlink()
+
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):
         for record in self:

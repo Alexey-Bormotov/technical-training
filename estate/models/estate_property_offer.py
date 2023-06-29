@@ -2,6 +2,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.float_utils import float_compare
 
 
 class EstatePropertyOffer(models.Model):
@@ -34,7 +35,8 @@ class EstatePropertyOffer(models.Model):
     property_id = fields.Many2one(
         'estate.property',
         string='Property',
-        required=True
+        required=True,
+        ondelete='cascade'
     )
     property_type_id = fields.Many2one(
         'estate.property.type',
@@ -47,6 +49,18 @@ class EstatePropertyOffer(models.Model):
         ('check_price', 'CHECK(price > 0)',
          'The offer price must be strictly positive.')
     ]
+
+    @api.model
+    def create(self, vals):
+        if vals.get('property_id') and vals.get('price'):
+            prop = self.env['estate.property'].browse(vals['property_id'])
+            if prop.offer_ids:
+                max_offer = max(prop.mapped('offer_ids.price'))
+                if float_compare(vals['price'], max_offer, precision_rounding=0.01) <= 0:
+                    raise UserError(
+                        'The offer must be higher than %.2f' % max_offer)
+            prop.state = 'offer_received'
+        return super().create(vals)
 
     @api.depends('validity')
     def _compute_date_deadline(self):
